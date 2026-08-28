@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم — أبو زيد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --char:#221a14; --char-2:#31251b; --char-3:#3d2e20;
+    --mustard:#d99a2b; --chili:#c1442c; --cream:#f6ecd9; --parsley:#5b6b3f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--char); color:var(--cream); font-family:'Tajawal',sans-serif; line-height:1.6;}
+  .num{font-family:'IBM Plex Sans Arabic',sans-serif; font-variant-numeric:tabular-nums;}
+  .display{font-family:'Lalezar',sans-serif; font-weight:400;}
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px;}
+
+  .platform-strip{background:#151009; padding:10px 0; font-size:12.5px; border-bottom:1px solid rgba(246,236,217,0.1);}
+  .platform-strip .wrap{display:flex; justify-content:space-between; align-items:center;}
+  .platform-strip a{color:var(--mustard); text-decoration:none; font-weight:700;}
+
+  header{padding:28px 0 20px; border-bottom:2px solid var(--mustard); margin-bottom:30px;}
+  header .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  .h-title{font-size:26px; color:var(--mustard);}
+  .h-sub{font-size:13px; color:#c9bfa6; margin-top:2px;}
+
+  .busy-toggle{
+    display:flex; align-items:center; gap:10px;
+    background:var(--char-2); border:1px solid rgba(246,236,217,0.15);
+    padding:10px 16px; border-radius:100px; cursor:pointer; user-select:none;
+    font-size:13.5px; font-weight:700;
+  }
+  .busy-dot{width:10px; height:10px; border-radius:50%; background:var(--parsley); transition:.2s;}
+  .busy-toggle.on .busy-dot{background:var(--chili);}
+  .busy-toggle.on{border-color:var(--chili);}
+
+  section{margin-bottom:40px;}
+  .sec-title{display:flex; align-items:center; gap:12px; margin-bottom:18px;}
+  .sec-title .display{font-size:20px; color:var(--mustard);}
+  .sec-title::after{content:""; flex:1; height:2px; background:repeating-linear-gradient(90deg, var(--mustard) 0 8px, transparent 8px 14px);}
+
+  /* menu editor */
+  .menu-card{background:var(--char-2); border:1px solid rgba(246,236,217,0.1); border-radius:6px; overflow:hidden;}
+  .m-row{display:grid; grid-template-columns:1fr 90px 90px; gap:12px; align-items:center; padding:14px 18px; border-bottom:1px solid rgba(246,236,217,0.08);}
+  .m-row:last-child{border-bottom:none;}
+  @media(max-width:600px){.m-row{grid-template-columns:1fr; gap:8px;}}
+  .m-row input[type=text]{
+    background:transparent; border:none; border-bottom:1px dashed rgba(246,236,217,0.25);
+    color:var(--cream); font-family:'Tajawal'; font-weight:700; font-size:14.5px; padding:4px 2px; width:100%;
+  }
+  .m-row input[type=number]{
+    background:var(--char); border:1px solid rgba(246,236,217,0.2); border-radius:4px;
+    color:var(--mustard); font-family:'IBM Plex Sans Arabic'; font-weight:700; font-size:14px;
+    padding:6px 8px; width:100%; text-align:center;
+  }
+  .avail-toggle{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    font-size:12px; cursor:pointer; padding:6px; border-radius:4px; border:1px solid rgba(246,236,217,0.15);
+  }
+  .avail-toggle.off{color:#8a7a55; text-decoration:line-through; border-color:var(--chili); background:rgba(193,68,44,0.12);}
+  .add-item-row{padding:14px 18px;}
+  .btn-add{
+    background:transparent; border:1.5px dashed var(--mustard); color:var(--mustard);
+    padding:9px 16px; border-radius:4px; font-weight:700; font-size:13px; cursor:pointer; width:100%;
+  }
+
+  /* contact + link block */
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:640px){.grid-2{grid-template-columns:1fr;}}
+  .info-box{background:var(--char-2); border:1px solid rgba(246,236,217,0.1); border-radius:6px; padding:20px;}
+  .info-box .lbl{font-size:12px; color:#c9bfa6; margin-bottom:8px; font-weight:600;}
+  .info-box input{
+    width:100%; background:var(--char); border:1px solid rgba(246,236,217,0.2); border-radius:4px;
+    color:var(--cream); font-family:'IBM Plex Sans Arabic'; padding:9px 12px; font-size:13.5px;
+  }
+  .link-box{
+    background:var(--char); border:1px dashed var(--mustard); border-radius:4px;
+    padding:12px 14px; font-family:'IBM Plex Sans Arabic'; font-size:12.5px; color:var(--mustard);
+    word-break:break-all; margin-top:10px;
+  }
+  .btn-copy{
+    margin-top:10px; background:var(--mustard); color:var(--char); border:none; font-weight:800;
+    padding:9px 16px; border-radius:4px; font-size:13px; cursor:pointer; width:100%;
+  }
+  .qr-note{font-size:11.5px; color:#8a7a55; margin-top:8px;}
+
+  /* recent orders */
+  .orders-list{background:var(--char-2); border:1px solid rgba(246,236,217,0.1); border-radius:6px; overflow:hidden;}
+  .o-row{display:flex; justify-content:space-between; align-items:center; padding:13px 18px; border-bottom:1px solid rgba(246,236,217,0.08); font-size:13.5px;}
+  .o-row:last-child{border-bottom:none;}
+  .o-time{color:#c9bfa6; font-size:12px; font-family:'IBM Plex Sans Arabic';}
+  .o-total{color:var(--mustard); font-weight:700; font-family:'IBM Plex Sans Arabic';}
+
+  footer{padding:30px 0 50px; text-align:center; font-size:12px; color:#8a7a55;}
+</style>
+</head>
+<body>
+
+<div class="platform-strip">
+  <div class="wrap">
+    <span>لوحة تحكم مطعمك على <a href="../index.html">وصلة</a></span>
+    <a href="./abu-zaid-shawarma.html">↩ شوف موقعك كزبون</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="h-title display">مرحبا، أبو زيد 👋</div>
+      <div class="h-sub">آخر تحديث: الآن — التعديلات تنعكس على موقعك مباشرة</div>
+    </div>
+    <div class="busy-toggle" id="busyToggle" onclick="toggleBusy()">
+      <span class="busy-dot"></span>
+      <span id="busyLabel">الوضع هادئ اليوم</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-title"><span class="display">المنيو</span></div>
+    <div class="menu-card" id="menuCard"></div>
+    <div class="add-item-row">
+      <button class="btn-add" onclick="addItem()">+ ضيف صنف جديد</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="display">التواصل والدفع</span></div>
+    <div class="grid-2">
+      <div class="info-box">
+        <div class="lbl">رقم واتساب الطلبات</div>
+        <input type="text" id="waNum" value="+962 7 9000 0000">
+      </div>
+      <div class="info-box">
+        <div class="lbl">alias كليك</div>
+        <input type="text" id="cliqAlias" value="ABUZAID07">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="display">رابط وكود QR</span></div>
+    <div class="info-box">
+      <div class="lbl">رابط موقعك — حطه بالبايو أو اطبعه QR على الطاولة</div>
+      <div class="link-box" id="siteLink">waslah.jo/restaurants/abu-zaid-shawarma</div>
+      <button class="btn-copy" onclick="copyLink()">📋 انسخ الرابط</button>
+      <div class="qr-note">توليد صورة QR جاهزة للطباعة بيتفعل لما نربط الموقع بدومين حقيقي</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="display">آخر الطلبات</span></div>
+    <div class="orders-list" id="ordersList"></div>
+  </section>
+
+  <footer>هاي نسخة تجريبية — التعديلات ما تنحفظش لما تسكر الصفحة، بس هيك رح يشتغل الداشبورد الحقيقي بالضبط</footer>
+</div>
+
+<script>
+  const menuData = [
+    {n:"شاورما فروج (سندويشة)", p:2.00, on:true},
+    {n:"شاورما لحمة (سندويشة)", p:2.50, on:true},
+    {n:"بروستد نص فروج", p:3.50, on:true},
+    {n:"بروستد فروج كامل", p:6.50, on:false},
+    {n:"بطاطا مقلية", p:1.25, on:true},
+    {n:"عصير ليمون نعناع", p:1.50, on:true},
+  ];
+  const ordersData = [
+    {time:"قبل 12 دقيقة", items:"شاورما فروج ×2، بطاطا", total:5.25},
+    {time:"قبل 40 دقيقة", items:"بروستد نص فروج", total:3.50},
+    {time:"اليوم 1:15 م", items:"شاورما لحمة ×3", total:7.50},
+    {time:"اليوم 12:50 م", items:"بروستد فروج كامل، عصير", total:8.00},
+  ];
+
+  function renderMenu(){
+    const card = document.getElementById('menuCard');
+    card.innerHTML = '';
+    menuData.forEach((it, idx)=>{
+      const row = document.createElement('div');
+      row.className = 'm-row';
+      row.innerHTML = `
+        <input type="text" value="${it.n}" onchange="menuData[${idx}].n=this.value">
+        <input type="number" step="0.25" value="${it.p.toFixed(2)}" onchange="menuData[${idx}].p=parseFloat(this.value)">
+        <div class="avail-toggle ${it.on ? '' : 'off'}" onclick="toggleAvail(${idx})">${it.on ? '✓ متوفر' : '✕ خلص'}</div>
+      `;
+      card.appendChild(row);
+    });
+  }
+  function toggleAvail(idx){ menuData[idx].on = !menuData[idx].on; renderMenu(); }
+  function addItem(){ menuData.push({n:"صنف جديد", p:1.00, on:true}); renderMenu(); }
+
+  function renderOrders(){
+    const list = document.getElementById('ordersList');
+    list.innerHTML = '';
+    ordersData.forEach(o=>{
+      const row = document.createElement('div');
+      row.className = 'o-row';
+      row.innerHTML = `<div>${o.items}<div class="o-time">${o.time}</div></div><div class="o-total num">${o.total.toFixed(2)} د.أ</div>`;
+      list.appendChild(row);
+    });
+  }
+
+  let busy = false;
+  function toggleBusy(){
+    busy = !busy;
+    const el = document.getElementById('busyToggle');
+    el.classList.toggle('on', busy);
+    document.getElementById('busyLabel').textContent = busy ? "مزدحم — التوصيل أبطأ اليوم" : "الوضع هادئ اليوم";
+  }
+
+  function copyLink(){
+    const t = document.getElementById('siteLink').textContent;
+    navigator.clipboard.writeText(t).then(()=> alert('انسخ الرابط ✓'));
+  }
+
+  renderMenu();
+  renderOrders();
+</script>
+
+</body>
+</html>
