@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وصلة — عرض للممول</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --stone:#e8e2d3; --stone-dark:#d9d0ba;
+    --ink:#1e2a22; --olive:#4b5842; --olive-dark:#333d2d;
+    --brass:#b08d57; --sumac:#9c3b2e; --paper:#f6f3ea;
+    --line: rgba(30,42,34,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--stone); color:var(--ink); font-family:'Tajawal',sans-serif; line-height:1.65;}
+  .num{font-family:'IBM Plex Sans Arabic',sans-serif; font-variant-numeric:tabular-nums;}
+  h1,h2,h3,.display{font-family:'El Messiri',serif;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  .platform-strip{background:var(--ink); color:var(--paper); padding:10px 0; font-size:12.5px;}
+  .platform-strip .wrap{display:flex; justify-content:space-between; align-items:center;}
+  .platform-strip a{color:var(--brass); text-decoration:none; font-weight:700;}
+
+  header.hero{padding:60px 0 48px; text-align:center;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Sans Arabic'; font-size:12.5px; font-weight:600;
+    color:var(--olive-dark); background:rgba(75,88,66,0.1); padding:6px 14px; border-radius:100px;
+    margin-bottom:20px; border:1px solid rgba(75,88,66,0.25);
+  }
+  h1{font-size:42px; line-height:1.25; font-weight:700; margin-bottom:16px;}
+  @media(max-width:640px){h1{font-size:30px;}}
+  h1 em{font-style:normal; color:var(--sumac);}
+  .lede{font-size:16.5px; color:#3d4a3f; max-width:560px; margin:0 auto 28px;}
+  .ask-badge{
+    display:inline-block; background:var(--ink); color:var(--paper); padding:16px 32px; border-radius:6px;
+  }
+  .ask-badge .an{font-family:'El Messiri'; font-size:32px; font-weight:700; color:var(--brass);}
+  .ask-badge .al{font-size:12.5px; color:#c9d1c3; margin-top:4px;}
+
+  .proof{background:var(--ink); color:var(--paper); padding:26px 0; margin-top:10px;}
+  .proof-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:center;}
+  @media(max-width:700px){.proof-grid{grid-template-columns:1fr; gap:18px;}}
+  .proof-num{font-family:'El Messiri'; font-size:28px; font-weight:700; color:var(--brass);}
+  .proof-label{font-size:12.5px; color:#b9c2b1; margin-top:4px;}
+
+  section{padding:60px 0;}
+  .section-head{margin-bottom:32px;}
+  .section-tag{font-family:'IBM Plex Sans Arabic'; font-size:12.5px; color:var(--sumac); font-weight:700; letter-spacing:.6px; display:block; margin-bottom:8px;}
+  h2{font-size:26px; font-weight:600;}
+
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media(max-width:760px){.grid-3{grid-template-columns:1fr;}}
+  .item-card{background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:22px;}
+  .item-card h3{font-size:16px; margin-bottom:8px; font-weight:600;}
+  .item-card p{font-size:13.5px; color:#4a5449;}
+
+  .rest-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    text-decoration:none; color:var(--ink); display:block;
+  }
+  .rest-thumb{height:80px; display:flex; align-items:center; justify-content:center; font-family:'El Messiri'; font-size:20px; font-weight:700;}
+  .rest-body{padding:14px 16px;}
+  .rest-body .rn{font-weight:700; font-size:14.5px;}
+  .rest-body .rc{font-size:12px; color:#6b7563; margin-top:2px;}
+
+  table{width:100%; border-collapse:collapse; background:var(--paper); border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  th,td{padding:12px 16px; text-align:right; font-size:13.5px; border-bottom:1px solid var(--line);}
+  th{background:var(--stone-dark); font-weight:700; color:var(--olive-dark);}
+  tr:last-child td{border-bottom:none;}
+
+  .roadmap{border-right:2px solid var(--brass); padding-right:20px;}
+  .r-item{margin-bottom:26px; position:relative;}
+  .r-item::before{content:""; position:absolute; right:-26px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--sumac);}
+  .r-item .rt{font-family:'IBM Plex Sans Arabic'; font-size:12px; color:var(--sumac); font-weight:700;}
+  .r-item h3{font-size:16px; margin:4px 0 6px;}
+  .r-item p{font-size:13.5px; color:#4a5449;}
+
+  .fund-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:20px;}
+  @media(max-width:700px){.fund-grid{grid-template-columns:1fr;}}
+  .fund-card{background:var(--paper); padding:22px;}
+  .fund-pct{font-family:'El Messiri'; font-size:26px; font-weight:700; color:var(--sumac);}
+  .fund-label{font-size:13px; color:var(--olive-dark); font-weight:600; margin:6px 0 4px;}
+  .fund-desc{font-size:12.5px; color:#4a5449;}
+
+  footer{padding:50px 0 60px; border-top:1px solid var(--line); text-align:center;}
+  footer p{font-size:13px; color:#6b7563; margin-bottom:14px;}
+  .btn-primary{background:var(--sumac); color:#fff; padding:14px 28px; border-radius:4px; font-weight:700; font-size:14.5px; border:none; text-decoration:none; display:inline-block;}
+</style>
+</head>
+<body>
+
+<div class="platform-strip">
+  <div class="wrap">
+    <span>وصلة — عرض تعريفي للممول</span>
+    <a href="./index.html">↩ الموقع الرسمي</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">فرصة استثمارية — قائمة رقمية وطلب مباشر لمطاعم الأردن</div>
+    <h1>مطاعم الأردن بتخسر <em>15–30%</em> من كل طلبية لتطبيقات التوصيل.<br>وصلة بتلغي هاي العمولة كليًا.</h1>
+    <p class="lede">منتج مبني وشغال فعليًا على 3 فئات مطاعم مختلفة، بنموذج اشتراك ثابت بدل عمولة متغيرة، وشبكة بتقوى مع كل مطعم جديد ينضم.</p>
+    <div class="ask-badge">
+      <div class="an num">$25,000–$50,000</div>
+      <div class="al">التمويل المطلوب — فريق محلي + أتمتة</div>
+    </div>
+  </header>
+</div>
+
+<div class="proof">
+  <div class="wrap">
+    <div class="proof-grid">
+      <div><div class="proof-num num">0%</div><div class="proof-label">عمولة على كل طلب — اشتراك ثابت بدلها</div></div>
+      <div><div class="proof-num num">~1,100</div><div class="proof-label">مطعم سياحي مرخّص بالأردن وحدها — السوق المستهدف أوسع بكثير</div></div>
+      <div><div class="proof-num num">3</div><div class="proof-label">فئات مطاعم شغالة فعليًا اليوم بهويات مختلفة</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <div class="section-head">
+      <span class="section-tag">المنتج شغال، مو فكرة على ورق</span>
+      <h2>3 مطاعم حقيقية الشكل، بهويات مختلفة كليًا</h2>
+    </div>
+    <div class="grid-3">
+      <a class="rest-card" href="./restaurants/diwan-grill.html">
+        <div class="rest-thumb" style="background:#e8e2d3; color:#9c3b2e;">فاين داين</div>
+        <div class="rest-body"><div class="rn">الديوان للمشاوي</div><div class="rc">مشاوي — عمّان</div></div>
+      </a>
+      <a class="rest-card" href="./restaurants/abu-zaid-shawarma.html">
+        <div class="rest-thumb" style="background:#221a14; color:#d99a2b;">وجبات سريعة</div>
+        <div class="rest-body"><div class="rn">شاورما وبروستد أبو زيد</div><div class="rc">صويلح</div></div>
+      </a>
+      <a class="rest-card" href="./restaurants/hara-cafe.html">
+        <div class="rest-thumb" style="background:#3E2723; color:#C89F6C;">كافيه</div>
+        <div class="rest-body"><div class="rn">قهوة الحارة</div><div class="rc">جبل اللويبدة</div></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-tag">جاهز فعليًا اليوم</span>
+      <h2>مو مجرد فكرة — هاي البنية التحتية موجودة</h2>
+    </div>
+    <div class="grid-3">
+      <div class="item-card"><h3>3 مواقع مطعم شغالة</h3><p>طلب واتساب ودفع كليق فعليًا، بتصميم مختلف كليًا لكل فئة.</p></div>
+      <div class="item-card"><h3>داشبورد خفيف للمطعم</h3><p>يعدّل الأسعار والتوفر بنفسه، بهويته البصرية هو مو شاشة أدمن عامة.</p></div>
+      <div class="item-card"><h3>دراسة سوق حقيقية</h3><p>مطاعم مرشحة فعليًا بعمّان والزرقاء وإربد، بالاسم والتقييم.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-tag">الموديل المالي</span>
+      <h2>اشتراك ثابت بدل عمولة متغيرة</h2>
+    </div>
+    <table>
+      <tr><th>البند</th><th>تطبيق توصيل</th><th>وصلة</th></tr>
+      <tr><td>العمولة على كل طلب</td><td>15–30%</td><td class="num">0%</td></tr>
+      <tr><td>التكلفة على المطعم</td><td>متغيرة، تكبر مع المبيعات</td><td class="num">20 د.أ ثابتة شهريًا</td></tr>
+      <tr><td>ملكية علاقة الزبون</td><td>عند التطبيق</td><td>عند المطعم مباشرة</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-tag">خارطة الطريق</span>
+      <h2>من 3 مطاعم إلى شبكة</h2>
+    </div>
+    <div class="roadmap">
+      <div class="r-item"><div class="rt num">الشهر 1–3</div><h3>أول 20 مطعم</h3><p>شريك محلي بالأردن يوقّع أول 20 مطعم عبر زيارات مباشرة، إثبات إنو الموديل شغال.</p></div>
+      <div class="r-item"><div class="rt num">الشهر 4–6</div><h3>الأتمتة</h3><p>ربط Google Places API لتوليد مواقع المطاعم الجديدة آليًا بدل البناء اليدوي.</p></div>
+      <div class="r-item"><div class="rt num">الشهر 7–12</div><h3>ميزات الشبكة</h3><p>مطاعم قريبة مني، كوبونات متبادلة بين المطاعم، صفحات مناطق — 100+ مطعم مستهدف.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="section-tag">استخدام التمويل</span>
+      <h2>وين رح يروح كل دولار</h2>
+    </div>
+    <div class="fund-grid">
+      <div class="fund-card"><div class="fund-pct num">40%</div><div class="fund-label">فريق محلي بالأردن</div><div class="fund-desc">راتب/عمولة شريك يزور المطاعم ويحصّل الاشتراكات وجهًا لوجه.</div></div>
+      <div class="fund-card"><div class="fund-pct num">35%</div><div class="fund-label">الأتمتة التقنية</div><div class="fund-desc">Google Places API، استضافة، بناء نظام توليد المواقع آليًا.</div></div>
+      <div class="fund-card"><div class="fund-pct num">25%</div><div class="fund-label">التسويق والانضمام</div><div class="fund-desc">حوافز أول 20 مطعم، مواد تعريفية، تصميم هوية لكل عميل جديد.</div></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>وصلة — قائمة، طلب، وتحصيل، مباشرة بين المطعم وزبونه.</p>
+    <a class="btn-primary" href="https://wa.me/000000000000?text=مهتم%20بالاستثمار%20بوصلة" target="_blank">تواصل معنا</a>
+  </div>
+</footer>
+
+</body>
+</html>
